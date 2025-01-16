@@ -133,7 +133,7 @@ class Program
 
                         if (productNameEn == null) 
                         {
-                            productNameEn = 0;
+                            productNameEn =  "بدون نام لاتین";
                         }
 
                         productList += $"{productNameFa} - {productNameEn} \n";
