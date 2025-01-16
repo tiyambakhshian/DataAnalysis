@@ -124,7 +124,7 @@ class Program
                     {
                        
                         string productNameFa = reader["product_title_fa"] as string; 
-                        decimal? productNameEn = reader["product_title_en"] as decimal?;
+                        string productNameEn = reader["product_title_en"] as string;
 
                         if (string.IsNullOrEmpty(productNameFa))
                         {
