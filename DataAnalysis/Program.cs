@@ -149,6 +149,11 @@ class Program
     //                string productList = "نتایج سرچی که زدی:\n";
     //                bool foundResults = false;
 
+                    while (await reader.ReadAsync())
+                    {
+                       
+                        string productNameFa = reader["product_title_fa"] as string; 
+                        string productNameEn = reader["product_title_en"] as string;
     //                while (await reader.ReadAsync())
     //                {
 
@@ -160,10 +165,10 @@ class Program
     //                        productNameFa = "بدون نام";
     //                    }
 
-    //                    if (productNameEn == null) 
-    //                    {
-    //                        productNameEn = "بدون نام لاتین";
-    //                    }
+                        if (productNameEn == null) 
+                        {
+                            productNameEn = 0;
+                        }
 
     //                    productList += $"{productNameFa} - {productNameEn} \n";
     //                    foundResults = true;
