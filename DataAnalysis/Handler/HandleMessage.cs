@@ -59,7 +59,7 @@ namespace DataAnalysis.Handler
                 string searchQuery = message.Text.Trim();
                 if (!string.IsNullOrEmpty(searchQuery))
                 {
-                    await _searchResultsSender.SendSearchReasultToUser(botClient, message.Chat.Id, searchQuery, _searchResultsSender.Get_messagePartition());
+                    await _searchResultsSender.SendSearchReasultToUser(botClient, message.Chat.Id, searchQuery);
                     _userSearchState.ClearSearchState(message.Chat.Id);
                 }
                 else
