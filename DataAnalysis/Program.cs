@@ -11,6 +11,7 @@ using DataAnalysis.StateUser;
 using Microsoft.Extensions.DependencyInjection;
 using DataAnalysis;
 using DataAnalysis.Repository;
+using DataAnalysis.SearchUser;
 
 class Program
 {
@@ -29,6 +30,9 @@ class Program
         .AddSingleton<IUserSearchState, UserSearchState>()
         .AddSingleton<ISearchResultsSender, SearchResultsSender>()
         .AddSingleton<IDatabaseRepository, DatabaseRepository>()
+        .AddSingleton<IMessageHandle, MessageHandle>()
+        .AddSingleton<ICallbackHandle, CallbackHandle>()
+        .AddSingleton<IMessagePartition , MessagePartition>()
         .AddSingleton<ITelegramBotClient>(botClient)
         .AddSingleton<TelegramHandler>()
         .BuildServiceProvider();
@@ -149,11 +153,11 @@ class Program
     //                string productList = "نتایج سرچی که زدی:\n";
     //                bool foundResults = false;
 
-                    while (await reader.ReadAsync())
-                    {
+                    //while (await reader.ReadAsync())
+                    //{
                        
-                        string productNameFa = reader["product_title_fa"] as string; 
-                        string productNameEn = reader["product_title_en"] as string;
+                    //    string productNameFa = reader["product_title_fa"] as string; 
+                    //    string productNameEn = reader["product_title_en"] as string;
     //                while (await reader.ReadAsync())
     //                {
 
@@ -165,10 +169,10 @@ class Program
     //                        productNameFa = "بدون نام";
     //                    }
 
-                        if (productNameEn == null) 
-                        {
-                            productNameEn = 0;
-                        }
+                        //if (productNameEn == null) 
+                        //{
+                        //    productNameEn = 0;
+                        //}
 
     //                    productList += $"{productNameFa} - {productNameEn} \n";
     //                    foundResults = true;

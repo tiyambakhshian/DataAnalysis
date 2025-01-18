@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAnalysis.Repository;
+using DataAnalysis.SearchUser;
 using Telegram.Bot;
+
 
 namespace DataAnalysis.StateUser
 {
@@ -12,12 +14,17 @@ namespace DataAnalysis.StateUser
 
     {
         private readonly IDatabaseRepository _databaseRepository;
-
-        public SearchResultsSender(IDatabaseRepository databaseRepository)
+        private readonly IMessagePartition _messagePartition;
+        public SearchResultsSender(IDatabaseRepository databaseRepository, IMessagePartition messagePartition)
         {
             _databaseRepository = databaseRepository;
+            _messagePartition = messagePartition;   
         }
 
+        public IMessagePartition Get_messagePartition()
+        {
+            return _messagePartition;
+        }
 
         public async Task SendSearchReasultToUser(ITelegramBotClient botClient, long chatId, string searchQuery)
         {
@@ -32,15 +39,11 @@ namespace DataAnalysis.StateUser
 
             const int maxMessageLength = 4096;
 
-            while (productList.Length > maxMessageLength)
+           foreach(var part in _messagePartition.PartitionMessage(productList, maxMessageLength))
             {
-                var part = productList.Substring(0, maxMessageLength); 
                 await botClient.SendTextMessageAsync(chatId, part);
-                productList = productList.Substring(maxMessageLength); 
             }
-
-
-            await botClient.SendTextMessageAsync(chatId, productList);
+            
         }
     }
 }
