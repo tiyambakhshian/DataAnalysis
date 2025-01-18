@@ -173,6 +173,10 @@ class Program
                         //{
                         //    productNameEn = 0;
                         //}
+    //                    if (productNameEn == null) 
+    //                  {
+    //                       productNameEn = 0;
+    //                  }
 
     //                    productList += $"{productNameFa} - {productNameEn} \n";
     //                    foundResults = true;
