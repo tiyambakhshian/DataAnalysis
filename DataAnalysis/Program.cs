@@ -9,9 +9,11 @@ using Telegram.Bot.Types.ReplyMarkups;
 using DataAnalysis.Handler;
 using DataAnalysis.StateUser;
 using Microsoft.Extensions.DependencyInjection;
-using DataAnalysis;
-using DataAnalysis.Repository;
+using DataAnalysis.Model;
 using DataAnalysis.SearchUser;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+
 
 class Program
 {
@@ -25,17 +27,26 @@ class Program
 
         var botClient = new TelegramBotClient(token);
 
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+
         // ایجاد Container برای Dependency Injection
         var serviceProvider = new ServiceCollection()
-        .AddSingleton<IUserSearchState, UserSearchState>()
-        .AddSingleton<ISearchResultsSender, SearchResultsSender>()
-        .AddSingleton<IDatabaseRepository, DatabaseRepository>()
-        .AddSingleton<IMessageHandle, MessageHandle>()
-        .AddSingleton<ICallbackHandle, CallbackHandle>()
-        .AddSingleton<IMessagePartition , MessagePartition>()
-        .AddSingleton<ITelegramBotClient>(botClient)
-        .AddSingleton<TelegramHandler>()
-        .BuildServiceProvider();
+            .AddSingleton<IConfiguration>(configuration)
+            .AddSingleton<IUserSearchState, UserSearchState>()
+            .AddSingleton<ISearchResultsSender, SearchResultsSender>()
+            .AddSingleton<IDatabaseRepository, DatabaseRepository>()
+            .AddSingleton<IMessageHandle, MessageHandle>()
+            .AddSingleton<ICallbackHandle, CallbackHandle>()
+            .AddSingleton<IMessagePartition , MessagePartition>()
+            .AddSingleton<ITelegramBotClient>(botClient)
+            .AddSingleton<TelegramHandler>()
+            .AddDbContext<DataAnalysisContext>(options =>
+             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")))
+            .BuildServiceProvider();
+
 
 
         // گرفتن نمونه از TelegramHandler از DI Container

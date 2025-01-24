@@ -36,14 +36,14 @@ namespace DataAnalysis.Handler
                     throw new ArgumentOutOfRangeException();
             }
         }
-        
-    
-        public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, System.Threading.CancellationToken cancellationToken)
-            {
-                Console.WriteLine($"Error occurred: {exception.Message}");
-                return Task.CompletedTask;
-            }
 
+
+        public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, System.Threading.CancellationToken cancellationToken)
+        {
+            Console.WriteLine($"Error occurred: {exception.Message}");
+            return Task.CompletedTask;
         }
+
+    }
 
 }

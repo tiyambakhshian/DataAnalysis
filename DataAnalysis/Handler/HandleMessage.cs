@@ -57,6 +57,7 @@ namespace DataAnalysis.Handler
             else if (_userSearchState.IsWaitingForSearch(message.Chat.Id))
             {
                 string searchQuery = message.Text.Trim();
+                Console.WriteLine($"Searching for: {searchQuery}");
                 if (!string.IsNullOrEmpty(searchQuery))
                 {
                     await _searchResultsSender.SendSearchReasultToUser(botClient, message.Chat.Id, searchQuery);

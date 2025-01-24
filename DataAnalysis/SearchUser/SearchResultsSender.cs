@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAnalysis.Repository;
+using DataAnalysis.Model;
 using DataAnalysis.SearchUser;
 using Telegram.Bot;
 
@@ -29,21 +29,31 @@ namespace DataAnalysis.StateUser
         public async Task SendSearchReasultToUser(ITelegramBotClient botClient, long chatId, string searchQuery)
         {
             var products = await _databaseRepository.SearchProductsAsync(searchQuery);
-            string productList = string.Join("\n", products.Select(p => $"{p.NameFa} - {p.NameEn}"));
+
+            
+            if (products == null || !products.Any())
+            {
+                await botClient.SendTextMessageAsync(chatId, "محصولی یافت نشد.");
+                return;
+            }
+
+            string productList = string.Join("\n", products.Select(p =>
+                $"{(string.IsNullOrEmpty(p.ProductTitleFa) ? "عنوان فارسی ندارد" : p.ProductTitleFa)} - " +
+                $"{(string.IsNullOrEmpty(p.ProductTitleEn) ? "عنوان انگلیسی ندارد" : p.ProductTitleEn)}"));
+
 
             if (string.IsNullOrEmpty(productList))
             {
                 productList = "محصولی یافت نشد";
             }
 
-
             const int maxMessageLength = 4096;
 
-           foreach(var part in _messagePartition.PartitionMessage(productList, maxMessageLength))
+            foreach (var part in _messagePartition.PartitionMessage(productList, maxMessageLength))
             {
                 await botClient.SendTextMessageAsync(chatId, part);
             }
-            
         }
+
     }
 }
