@@ -26,9 +26,7 @@ namespace DataAnalysis.Model
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-           
-            modelBuilder.ApplyConfiguration(new ProductEntityConfiguration());
+        { 
 
             OnModelCreatingPartial(modelBuilder);
         }

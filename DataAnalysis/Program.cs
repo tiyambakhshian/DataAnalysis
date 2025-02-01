@@ -40,7 +40,7 @@ class Program
             .AddSingleton<IDatabaseRepository, DatabaseRepository>()
             .AddSingleton<IMessageHandle, MessageHandle>()
             .AddSingleton<ICallbackHandle, CallbackHandle>()
-            .AddSingleton<IMessagePartition , MessagePartition>()
+            .AddSingleton<IMessagePartition, MessagePartition>()
             .AddSingleton<ITelegramBotClient>(botClient)
             .AddSingleton<TelegramHandler>()
             .AddDbContext<DataAnalysisContext>(options =>
@@ -70,3 +70,4 @@ class Program
         Console.ReadLine();
         cts.Cancel();
     }
+}
